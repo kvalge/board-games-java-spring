@@ -27,6 +27,7 @@ public class ProductOrderService {
     public void addNewProductOrder(ProductOrderRequest request) {
         ProductOrder productOrder = productOrderMapper.productOrderRequestToProductOrder(request);
         Product product = productRepository.findByProductNameIgnoreCase(request.getProductName());
+
         ProductOrder newProduct = new ProductOrder();
         newProduct.setProduct(product);
         newProduct.setCustomer(productOrder.getCustomer());
@@ -34,6 +35,11 @@ public class ProductOrderService {
         newProduct.setOrderDate(orderDate);
         int quantity = request.getQuantity();
         newProduct.setQuantity(quantity);
+
+
+        Integer newProductAmount = product.getAmount() - quantity;
+        productService.updateAmountByName(product.getProductName(), newProductAmount);
+
         float price = product.getPrice();
         newProduct.setOrderTotalPrice(quantity * price);
         newProduct.setDeadline(orderDate.plusDays(4));
