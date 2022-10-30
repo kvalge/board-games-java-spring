@@ -31,6 +31,12 @@ public class ProductOrderController {
         return productOrderService.getResponseByCustomerName(name);
     }
 
+    @PutMapping("/update/amount")
+    @Operation(summary = "Updates amount by customer name and order id")
+    public void updateAmount(@RequestParam String name, @RequestParam long id, @RequestParam Integer quantity) {
+        productOrderService.updateAmount(name, id, quantity);
+    }
+
     @PutMapping("/update/status")
     @Operation(summary = "Updates order status by customer name and order id")
     public void updateStatus(@RequestParam String name, Long id) {

@@ -46,5 +46,9 @@ public interface ProductOrderMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     ProductOrder updateProductOrderFromProductOrderResponse1(ProductOrderResponse productOrderResponse, @MappingTarget ProductOrder productOrder);
 
+    ProductOrder updateAmount(Integer quantity, @MappingTarget ProductOrder productOrder);
+
+    ProductOrder updateTotalPrice(Float totalPrice, @MappingTarget ProductOrder productOrder);
+
     ProductOrder updateStatus(String status, @MappingTarget ProductOrder productOrder);
 }

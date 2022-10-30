@@ -2,6 +2,7 @@ package com.example.boardgamesjavaspring.domain.product_order;
 
 import com.example.boardgamesjavaspring.domain.product.Product;
 import com.example.boardgamesjavaspring.domain.product.ProductRepository;
+import com.example.boardgamesjavaspring.domain.product.ProductService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +20,9 @@ public class ProductOrderService {
 
     @Resource
     private ProductRepository productRepository;
+
+    @Resource
+    private ProductService productService;
 
     public void addNewProductOrder(ProductOrderRequest request) {
         ProductOrder productOrder = productOrderMapper.productOrderRequestToProductOrder(request);
@@ -45,6 +49,24 @@ public class ProductOrderService {
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(String name) {
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
         return productOrderMapper.productOrdersToProductOrderResponses(orders);
+    }
+
+    public void updateAmount(String name, long id, Integer quantity) {
+        ProductOrder byNameAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        Product product = byNameAndId.getProduct();
+
+        Integer orderAmountChange = byNameAndId.getQuantity() - quantity;
+        Integer newProductAmount = product.getAmount() + orderAmountChange;
+        productService.updateAmountByName(product.getProductName(), newProductAmount);
+
+        Float price = product.getPrice();
+        Float totalPrice = price * quantity;
+
+        ProductOrder newAmount = productOrderMapper.updateAmount(quantity, byNameAndId);
+        ProductOrder newTotalPrice = productOrderMapper.updateTotalPrice(totalPrice, byNameAndId);
+
+        productOrderRepository.save(newAmount);
+        productOrderRepository.save(newTotalPrice);
     }
 
     public void updateStatus(String name, Long id) {
