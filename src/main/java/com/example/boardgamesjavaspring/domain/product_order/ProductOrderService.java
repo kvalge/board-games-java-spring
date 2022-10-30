@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductOrderService {
@@ -82,6 +83,13 @@ public class ProductOrderService {
     }
 
     public void deleteOrderById(long id) {
+        Optional<ProductOrder> order = productOrderRepository.findById(id);
+        Integer quantity = order.get().getQuantity();
+        Product product = order.get().getProduct();
+        Integer productAmount = product.getAmount();
+        Integer newAmount = productAmount - quantity;
+        productService.updateAmountByName(product.getProductName(), newAmount);
+
         productOrderRepository.deleteById(id);
     }
 }

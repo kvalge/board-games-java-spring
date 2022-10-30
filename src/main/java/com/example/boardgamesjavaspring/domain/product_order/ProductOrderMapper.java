@@ -7,7 +7,6 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ProductOrderMapper {
 
-
     ProductOrder productOrderDtoToProductOrder(ProductOrderDto productOrderDto);
 
     ProductOrderDto productOrderToProductOrderDto(ProductOrder productOrder);
