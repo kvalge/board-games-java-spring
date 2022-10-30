@@ -21,7 +21,13 @@ public class ProductOrderController {
 
     @GetMapping("/get/by/customer/name")
     @Operation(summary = "Returns orders by customer name")
-    public List<ProductOrderDto> getOrdersByCustomerName(@RequestParam String name) {
+    public List<ProductOrderResponse> getOrdersByCustomerName(@RequestParam String name) {
         return productOrderService.getOrdersByCustomerName(name);
+    }
+
+    @GetMapping("/get/response/by/customer/name")
+    @Operation(summary = "Returns orders info for customer by customer name")
+    public List<ProductOrderCustomerResponse> getResponseByCustomerName(@RequestParam String name) {
+        return productOrderService.getResponseByCustomerName(name);
     }
 }

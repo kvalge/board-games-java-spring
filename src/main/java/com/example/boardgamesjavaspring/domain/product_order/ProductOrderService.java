@@ -37,8 +37,13 @@ public class ProductOrderService {
         productOrderRepository.save(newProduct);
     }
 
-    public List<ProductOrderDto> getOrdersByCustomerName(String name) {
+    public List<ProductOrderResponse> getOrdersByCustomerName(String name) {
         List<ProductOrder> ordersByCustomerName = productOrderRepository.findOrdersByCustomerName(name);
-        return productOrderMapper.productOrdersToProductORderDtos(ordersByCustomerName);
+        return productOrderMapper.ordersToResponses(ordersByCustomerName);
+    }
+
+    public List<ProductOrderCustomerResponse> getResponseByCustomerName(String name) {
+        List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
+        return productOrderMapper.productOrdersToProductOrderResponses(orders);
     }
 }

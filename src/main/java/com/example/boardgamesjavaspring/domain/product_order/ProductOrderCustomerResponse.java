@@ -6,9 +6,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class ProductOrderResponse implements Serializable {
-    private final Long id;
-    private final String customer;
+public class ProductOrderCustomerResponse implements Serializable {
+
     private final String productName;
     private final Float price;
     private final Float orderTotalPrice;
