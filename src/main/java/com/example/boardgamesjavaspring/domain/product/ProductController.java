@@ -37,6 +37,12 @@ public class ProductController {
         productService.updateProductByName(name, request);
     }
 
+    @PutMapping("update/amount/by/name")
+    @Operation(summary = "Updates product amount by name")
+    public void updateAmountByName(@RequestParam String name, @RequestParam int quantity) {
+        productService.updateAmountByName(name, quantity);
+    }
+
     @DeleteMapping("/delete/by/name")
     @Operation(summary = "Deletes product by name")
     public void deleteProductByName(@RequestParam String name) {

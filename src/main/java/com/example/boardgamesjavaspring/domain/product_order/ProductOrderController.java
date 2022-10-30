@@ -30,4 +30,10 @@ public class ProductOrderController {
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(@RequestParam String name) {
         return productOrderService.getResponseByCustomerName(name);
     }
+
+    @DeleteMapping("/delete/by/id")
+    @Operation(summary = "Deletes order by id")
+    public void deleteOrderById(@RequestParam long id) {
+        productOrderService.deleteOrderById(id);
+    }
 }

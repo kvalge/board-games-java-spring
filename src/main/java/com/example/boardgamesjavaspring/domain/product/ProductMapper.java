@@ -25,4 +25,6 @@ public interface ProductMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Product updateProductFromProductRequest(ProductRequest productRequest, @MappingTarget Product product);
+
+    Product updateProductAmount(Integer amount, @MappingTarget Product product);
 }

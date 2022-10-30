@@ -46,4 +46,8 @@ public class ProductOrderService {
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
         return productOrderMapper.productOrdersToProductOrderResponses(orders);
     }
+
+    public void deleteOrderById(long id) {
+        productOrderRepository.deleteById(id);
+    }
 }

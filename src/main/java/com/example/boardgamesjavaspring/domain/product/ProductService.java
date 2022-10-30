@@ -39,6 +39,12 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void updateAmountByName(String name, int quantity) {
+        Product byProductName = productRepository.findByProductNameIgnoreCase(name);
+        Product product = productMapper.updateProductAmount(quantity, byProductName);
+        productRepository.save(product);
+    }
+
     public void deleteProductByName(String name) {
         productRepository.deleteByProductNameAllIgnoreCase(name);
     }
