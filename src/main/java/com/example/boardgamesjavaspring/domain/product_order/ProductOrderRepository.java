@@ -9,6 +9,5 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrder, Long
     @Query("select p from ProductOrder p where upper(p.customer) = upper(?1) order by p.deadline DESC")
     List<ProductOrder> findOrdersByCustomerName(String customer);
 
-
-
+    ProductOrder findByCustomerIgnoreCaseAndId(String customer, Long id);
 }

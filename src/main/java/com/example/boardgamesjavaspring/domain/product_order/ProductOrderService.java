@@ -47,6 +47,12 @@ public class ProductOrderService {
         return productOrderMapper.productOrdersToProductOrderResponses(orders);
     }
 
+    public void updateStatus(String name, Long id) {
+        ProductOrder byCustomerAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        ProductOrder status = productOrderMapper.updateStatus("Order delivered", byCustomerAndId);
+        productOrderRepository.save(status);
+    }
+
     public void deleteOrderById(long id) {
         productOrderRepository.deleteById(id);
     }

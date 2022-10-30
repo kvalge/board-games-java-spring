@@ -31,6 +31,12 @@ public class ProductOrderController {
         return productOrderService.getResponseByCustomerName(name);
     }
 
+    @PutMapping("/update/status")
+    @Operation(summary = "Updates order status by customer name and order id")
+    public void updateStatus(@RequestParam String name, Long id) {
+        productOrderService.updateStatus(name, id);
+    }
+
     @DeleteMapping("/delete/by/id")
     @Operation(summary = "Deletes order by id")
     public void deleteOrderById(@RequestParam long id) {
