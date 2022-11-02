@@ -36,23 +36,31 @@ public class ProductService {
     }
 
     public ProductDto getProductByName(String name) {
+        validationService.NoSuchProductExists(name);
+
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         return productMapper.productToProductDto(byProductName);
     }
 
     public void updateProductByName(String name, ProductRequest request) {
+        validationService.NoSuchProductExists(name);
+
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         Product product = productMapper.updateProductFromProductRequest(request, byProductName);
         productRepository.save(product);
     }
 
     public void updateAmountByName(String name, int quantity) {
+        validationService.NoSuchProductExists(name);
+
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         Product product = productMapper.updateProductAmount(quantity, byProductName);
         productRepository.save(product);
     }
 
     public void deleteProductByName(String name) {
+        validationService.NoSuchProductExists(name);
+
         productRepository.deleteByProductNameAllIgnoreCase(name);
     }
 }
