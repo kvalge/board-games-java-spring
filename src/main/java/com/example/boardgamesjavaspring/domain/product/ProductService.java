@@ -1,5 +1,6 @@
 package com.example.boardgamesjavaspring.domain.product;
 
+import com.example.boardgamesjavaspring.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,13 +15,19 @@ public class ProductService {
     @Resource
     private ProductRepository productRepository;
 
+    @Resource
+    private ValidationService validationService;
+
     public void addNewProduct(ProductRequest request) {
+        validationService.productExist(request);
+
         Product product = productMapper.productRequestToProduct(request);
         Product newProduct = new Product();
         newProduct.setProductName(product.getProductName());
         newProduct.setPrice((product.getPrice()));
         newProduct.setAmount(product.getAmount());
         productRepository.save(newProduct);
+
     }
 
     public List<ProductDto> getAllProducts() {
