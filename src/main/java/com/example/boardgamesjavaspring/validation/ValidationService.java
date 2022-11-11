@@ -15,7 +15,7 @@ public class ValidationService {
     private ProductRepository productRepository;
 
     public String productExist(ProductRequest request) {
-        Product product = productRepository.findByProductNameIgnoreCase(request.getProductName());
+        Product product = productRepository.findByProductName(request.getProductName());
         if (product == null) {
             return request.getProductName() + " is added successfully";
         } else {
@@ -25,7 +25,7 @@ public class ValidationService {
     }
 
     public String NoSuchProductExists(String name) {
-        Product product = productRepository.findByProductNameIgnoreCase(name);
+        Product product = productRepository.findByProductName(name);
         if (product != null) {
             return "Operation successfully completed!";
         } else {
