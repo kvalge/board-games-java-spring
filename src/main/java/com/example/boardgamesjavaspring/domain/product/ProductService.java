@@ -36,19 +36,21 @@ public class ProductService {
     }
 
     public List<ProductDto> getAllProducts() {
+        validationService.dataNotFound();
+
         List<Product> products = productRepository.findAll();
         return productMapper.productsToProductDtos(products);
     }
 
     public ProductDto getProductByName(String name) {
-        validationService.NoSuchProductExists(name);
+        validationService.noSuchProductExists(name);
 
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         return productMapper.productToProductDto(byProductName);
     }
 
     public void updateProductByName(String name, ProductRequest request) {
-        validationService.NoSuchProductExists(name);
+        validationService.noSuchProductExists(name);
 
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         Product product = productMapper.updateProductFromProductRequest(request, byProductName);
@@ -56,7 +58,7 @@ public class ProductService {
     }
 
     public void updateAmountByName(String name, int quantity) {
-        validationService.NoSuchProductExists(name);
+        validationService.noSuchProductExists(name);
 
         Product byProductName = productRepository.findByProductNameIgnoreCase(name);
         Product product = productMapper.updateProductAmount(quantity, byProductName);
@@ -68,7 +70,7 @@ public class ProductService {
      * Before deleting validates if requested product with such a name exists at all.
      */
     public void deleteProductByName(String name) {
-        validationService.NoSuchProductExists(name);
+        validationService.noSuchProductExists(name);
 
         List<ProductOrder> orders = productOrderRepository.findOrdersByProductName(name);
 
