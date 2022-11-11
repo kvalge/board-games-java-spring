@@ -68,7 +68,13 @@ public class ProductOrderService {
         return productOrderMapper.ordersToResponses(orders);
     }
 
+    /**
+     * Before returning orders by customer name checks if there are orders on that name.
+     * Returns list of orders with order details customized for customer.
+     */
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(String name) {
+        validationService.customerNotFound(name);
+
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
         return productOrderMapper.productOrdersToProductOrderResponses(orders);
     }
