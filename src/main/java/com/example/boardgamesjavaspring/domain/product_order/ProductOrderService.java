@@ -74,9 +74,14 @@ public class ProductOrderService {
     }
 
     /**
-     * According to new order quantity amount of products in database and order total price are also recalculated.
+     * Before updating amount of products in order it is checked if there is any order on such customer name
+     * and then if there is a order with such id on such a customer name.
+     * According to new order quantity, amount of products in database and the order total price are also recalculated.
      */
     public void updateAmount(String name, long id, Integer quantity) {
+        validationService.customerNotFound(name);
+        validationService.orderNotFound(name, id);
+
         ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
         Product product = order.getProduct();
 

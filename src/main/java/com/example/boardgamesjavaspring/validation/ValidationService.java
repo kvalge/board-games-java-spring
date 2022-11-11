@@ -66,10 +66,23 @@ public class ValidationService {
      */
     public String customerNotFound(String name) {
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
-        if (orders.contains(name)) {
+        if (!orders.isEmpty()) {
             return "Operation successfully completed!";
         } else {
             String message = "No orders found on that name!";
+            throw new DataNotFoundException(message);
+        }
+    }
+
+    /**
+     * Created to throw exception if there is no such an order id on requested name.
+     */
+    public String orderNotFound(String name, long id) {
+        ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        if (order != null) {
+            return "Operation successfully completed!";
+        } else {
+            String message = "No order with id nr " + id + "!";
             throw new DataNotFoundException(message);
         }
     }
