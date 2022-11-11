@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductOrderService {
@@ -53,8 +52,8 @@ public class ProductOrderService {
     }
 
     public List<ProductOrderResponse> getOrdersByCustomerName(String name) {
-        List<ProductOrder> ordersByCustomerName = productOrderRepository.findOrdersByCustomerName(name);
-        return productOrderMapper.ordersToResponses(ordersByCustomerName);
+        List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
+        return productOrderMapper.ordersToResponses(orders);
     }
 
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(String name) {
@@ -66,18 +65,18 @@ public class ProductOrderService {
      * According to new order quantity amount of products in database and order total price are also recalculated.
      */
     public void updateAmount(String name, long id, Integer quantity) {
-        ProductOrder byNameAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
-        Product product = byNameAndId.getProduct();
+        ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        Product product = order.getProduct();
 
-        Integer orderAmountChange = byNameAndId.getQuantity() - quantity;
+        Integer orderAmountChange = order.getQuantity() - quantity;
         int newProductAmount = product.getAmount() + orderAmountChange;
         productService.updateAmountByName(product.getProductName(), newProductAmount);
 
         Float price = product.getPrice();
         Float totalPrice = price * quantity;
 
-        ProductOrder newAmount = productOrderMapper.updateAmount(quantity, byNameAndId);
-        ProductOrder newTotalPrice = productOrderMapper.updateTotalPrice(totalPrice, byNameAndId);
+        ProductOrder newAmount = productOrderMapper.updateAmount(quantity, order);
+        ProductOrder newTotalPrice = productOrderMapper.updateTotalPrice(totalPrice, order);
 
         productOrderRepository.save(newAmount);
         productOrderRepository.save(newTotalPrice);
@@ -88,18 +87,18 @@ public class ProductOrderService {
      * 'Order delivered'.
      */
     public void updateStatus(String name, Long id) {
-        ProductOrder byCustomerAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
-        ProductOrder status = productOrderMapper.updateStatus("Order delivered", byCustomerAndId);
+        ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        ProductOrder status = productOrderMapper.updateStatus("Order delivered", order);
         productOrderRepository.save(status);
     }
 
     /**
      * Deleting order also updates amount of products in database.
      */
-    public void deleteOrderById(long id) {
-        Optional<ProductOrder> order = productOrderRepository.findById(id);
-        Integer quantity = order.get().getQuantity();
-        Product product = order.get().getProduct();
+    public void delete(String name, long id) {
+        ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        Integer quantity = order.getQuantity();
+        Product product = order.getProduct();
         Integer productAmount = product.getAmount();
         int newAmount = productAmount - quantity;
         productService.updateAmountByName(product.getProductName(), newAmount);

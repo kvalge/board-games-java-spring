@@ -19,13 +19,13 @@ public class ProductOrderController {
         productOrderService.addNewProductOrder(request);
     }
 
-    @GetMapping("/get/by/customer/name")
+    @GetMapping("/get/all")
     @Operation(summary = "Returns orders by customer name")
     public List<ProductOrderResponse> getOrdersByCustomerName(@RequestParam String name) {
         return productOrderService.getOrdersByCustomerName(name);
     }
 
-    @GetMapping("/get/response/by/customer/name")
+    @GetMapping("/get/response")
     @Operation(summary = "Returns orders info for customer by customer name")
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(@RequestParam String name) {
         return productOrderService.getResponseByCustomerName(name);
@@ -39,13 +39,13 @@ public class ProductOrderController {
 
     @PutMapping("/update/status")
     @Operation(summary = "Updates order status by customer name and order id")
-    public void updateStatus(@RequestParam String name, Long id) {
+    public void updateStatus(@RequestParam String name, @RequestParam Long id) {
         productOrderService.updateStatus(name, id);
     }
 
-    @DeleteMapping("/delete/by/id")
-    @Operation(summary = "Deletes order by id")
-    public void deleteOrderById(@RequestParam long id) {
-        productOrderService.deleteOrderById(id);
+    @DeleteMapping("/delete")
+    @Operation(summary = "Deletes order by customer name and order id")
+    public void delete(@RequestParam String name, @RequestParam long id) {
+        productOrderService.delete(name, id);
     }
 }
