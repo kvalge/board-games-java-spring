@@ -65,7 +65,7 @@ public class ProductService {
     }
 
     /**
-     * Deletes product by name deleting also all orders on that product beforehand.
+     * Deleting product by name deletes also all orders on that product beforehand.
      * Before deleting validates if requested product with such a name exists at all.
      */
     public void deleteProductByName(String name) {

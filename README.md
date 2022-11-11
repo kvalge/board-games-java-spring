@@ -22,12 +22,12 @@ Domain layers:
 entity - an abstract level class to correlate with a table in the database;  
 repository - to perform operations on the object in database;  
 DTO - Data Transfer Object contains class properties and getters and settings methods for accessing those properties;  
-controller - responsible for processing incoming REST API requests, preparing a model and returning a response;  
-service - for adding business logic and functionalities;  
 request - modified DTO class for getting selection of properties of the object;  
 response - modified DTO class for sending selection of properties of the object;  
 mapper - to interchange data between entity and DTO layers.
-  
+service - for adding business logic and functionalities;
+controller - responsible for processing incoming REST API requests, preparing a model and returning a response;  
+
 Infrastructure domain is created for exception handling classes.  
 Validation domain for validation class and methods.  
   

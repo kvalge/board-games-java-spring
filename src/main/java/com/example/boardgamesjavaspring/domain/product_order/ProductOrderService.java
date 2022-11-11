@@ -25,6 +25,11 @@ public class ProductOrderService {
     @Resource
     private ProductService productService;
 
+    /**
+     * Setting up new product order number also updates amount of products in product database.
+     * Sum of total price of order is calculated on product price from product properties and
+     * quantity number of order request.
+     */
     public void addNewProductOrder(ProductOrderRequest request) {
         ProductOrder productOrder = productOrderMapper.productOrderRequestToProductOrder(request);
         Product product = productRepository.findByProductNameIgnoreCase(request.getProductName());
@@ -36,7 +41,6 @@ public class ProductOrderService {
         newProduct.setOrderDate(orderDate);
         int quantity = request.getQuantity();
         newProduct.setQuantity(quantity);
-
 
         int newProductAmount = product.getAmount() - quantity;
         productService.updateAmountByName(product.getProductName(), newProductAmount);
@@ -58,6 +62,9 @@ public class ProductOrderService {
         return productOrderMapper.productOrdersToProductOrderResponses(orders);
     }
 
+    /**
+     * According to new order quantity amount of products in database and order total price are also recalculated.
+     */
     public void updateAmount(String name, long id, Integer quantity) {
         ProductOrder byNameAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
         Product product = byNameAndId.getProduct();
@@ -76,12 +83,19 @@ public class ProductOrderService {
         productOrderRepository.save(newTotalPrice);
     }
 
+    /**
+     * As creating order the first status will be 'In process' then status update gives order status value
+     * 'Order delivered'.
+     */
     public void updateStatus(String name, Long id) {
         ProductOrder byCustomerAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
         ProductOrder status = productOrderMapper.updateStatus("Order delivered", byCustomerAndId);
         productOrderRepository.save(status);
     }
 
+    /**
+     * Deleting order also updates amount of products in database.
+     */
     public void deleteOrderById(long id) {
         Optional<ProductOrder> order = productOrderRepository.findById(id);
         Integer quantity = order.get().getQuantity();

@@ -28,7 +28,7 @@ INSERT INTO product_order (id, customer, product_id, quantity, order_total_price
 VALUES (DEFAULT, 'Kati Karu', 35, 1, 24.99, '2022-11-08', '2022-11-11', 'In process');
 
 INSERT INTO product_order (id, customer, product_id, quantity, order_total_price, order_date, deadline, status)
-VALUES (DEFAULT, 'Kati Karu', 36, 1, 13.99, '2022-11-08', '2022-11-11', 'Completed');
+VALUES (DEFAULT, 'Kati Karu', 36, 1, 13.99, '2022-11-08', '2022-11-11', 'Order delivered');
 
 INSERT INTO product_order (id, customer, product_id, quantity, order_total_price, order_date, deadline, status)
 VALUES (DEFAULT, 'Juta Jänese', 37, 1, 24.99, '2022-11-09', '2022-11-14', 'In process');
