@@ -7,7 +7,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ProductOrderMapper {
 
-    ProductOrder productOrderRequestToProductOrder(ProductOrderRequest productOrderRequest);
+    ProductOrder requestToOrder(ProductOrderRequest productOrderRequest);
 
     ProductOrder updateAmount(Integer quantity, @MappingTarget ProductOrder productOrder);
 
@@ -17,9 +17,9 @@ public interface ProductOrderMapper {
 
     @Mapping(target = "productName", source = "product.productName")
     @Mapping(target = "price", source = "product.price")
-    ProductOrderCustomerResponse productOrderToProductOrderResponse(ProductOrder productOrder);
+    ProductOrderCustomerResponse orderToCustomerResponse(ProductOrder productOrder);
 
-    List<ProductOrderCustomerResponse> productOrdersToProductOrderResponses(List<ProductOrder> productOrders);
+    List<ProductOrderCustomerResponse> ordersToOrderCustomerResponses(List<ProductOrder> productOrders);
 
     @Mapping(target = "productName", source = "product.productName")
     @Mapping(target = "price", source = "product.price")
