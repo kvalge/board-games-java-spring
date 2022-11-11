@@ -3,11 +3,11 @@ package com.example.boardgamesjavaspring.infrastructure.exception;
 import lombok.Data;
 
 @Data
-public class NoSuchProductExistsException extends RuntimeException {
+public class DataNotFoundException extends RuntimeException{
 
     private String message;
 
-    public NoSuchProductExistsException(String message) {
+    public DataNotFoundException(String message) {
         super(message);
         this.message = message;
     }
