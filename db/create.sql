@@ -10,7 +10,6 @@ CREATE TABLE product_order
 (
     id                BIGSERIAL primary key not null,
     product_id        BIGINT references product (id),
---     product_price     REAL references product (price),
     customer          VARCHAR(250)          not null,
     quantity          INTEGER               not null,
     order_total_price REAL                  not null,
