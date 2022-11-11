@@ -10,4 +10,7 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrder, Long
     List<ProductOrder> findOrdersByCustomerName(String customer);
 
     ProductOrder findByCustomerIgnoreCaseAndId(String customer, Long id);
+
+    @Query("select p from ProductOrder p where upper(p.product.productName) = upper(?1)")
+    List<ProductOrder> findOrdersByProductName(String productName);
 }

@@ -1,5 +1,7 @@
 package com.example.boardgamesjavaspring.domain.product;
 
+import com.example.boardgamesjavaspring.domain.product_order.ProductOrder;
+import com.example.boardgamesjavaspring.domain.product_order.ProductOrderRepository;
 import com.example.boardgamesjavaspring.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class ProductService {
 
     @Resource
     private ValidationService validationService;
+
+    @Resource
+    private ProductOrderRepository productOrderRepository;
 
     public void addNewProduct(ProductRequest request) {
         validationService.productExist(request);
@@ -58,8 +63,18 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    /**
+     * Deletes product by name with deleting also all orders on that product beforehand.
+     * Before deleting validates if requested product with such a name exists at all.
+     */
     public void deleteProductByName(String name) {
         validationService.NoSuchProductExists(name);
+
+        List<ProductOrder> orders = productOrderRepository.findOrdersByProductName(name);
+
+        for (ProductOrder order : orders) {
+            productOrderRepository.deleteById(order.getId());
+        }
 
         productRepository.deleteByProductNameAllIgnoreCase(name);
     }
