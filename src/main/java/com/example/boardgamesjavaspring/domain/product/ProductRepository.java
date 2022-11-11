@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Product findByProductName(String productName);
+    Product findByProductNameIgnoreCase(String productName);
 
     @Transactional
     @Modifying
     @Query("delete from Product p where upper(p.productName) = upper(?1)")
-    int deleteByProductName(String productName);
-    }
+    int deleteByProductNameAllIgnoreCase(String productName);
+
+
+
+}
