@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 @Data
 public class ProductDto implements Serializable {
+
     private final Long id;
     @Size(max = 250)
     @NotNull

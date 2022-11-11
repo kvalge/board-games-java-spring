@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "product")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -29,5 +30,4 @@ public class Product {
     @NotNull
     @Column(name = "amount", nullable = false)
     private Integer amount;
-
 }

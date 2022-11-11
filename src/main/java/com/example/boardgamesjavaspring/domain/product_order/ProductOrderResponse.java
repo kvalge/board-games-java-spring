@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class ProductOrderResponse implements Serializable {
+
     private final Long id;
     private final String customer;
     private final String productName;

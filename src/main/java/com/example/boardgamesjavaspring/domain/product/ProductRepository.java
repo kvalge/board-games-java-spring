@@ -12,7 +12,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("delete from Product p where upper(p.productName) = upper(?1)")
     int deleteByProductNameAllIgnoreCase(String productName);
-
-
-
 }

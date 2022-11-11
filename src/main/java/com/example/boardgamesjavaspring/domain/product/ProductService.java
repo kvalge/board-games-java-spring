@@ -32,7 +32,6 @@ public class ProductService {
         newProduct.setPrice((product.getPrice()));
         newProduct.setAmount(product.getAmount());
         productRepository.save(newProduct);
-
     }
 
     public List<ProductDto> getAllProducts() {

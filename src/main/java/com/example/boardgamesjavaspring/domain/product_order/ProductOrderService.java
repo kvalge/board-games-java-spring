@@ -38,7 +38,7 @@ public class ProductOrderService {
         newProduct.setQuantity(quantity);
 
 
-        Integer newProductAmount = product.getAmount() - quantity;
+        int newProductAmount = product.getAmount() - quantity;
         productService.updateAmountByName(product.getProductName(), newProductAmount);
 
         float price = product.getPrice();
@@ -63,7 +63,7 @@ public class ProductOrderService {
         Product product = byNameAndId.getProduct();
 
         Integer orderAmountChange = byNameAndId.getQuantity() - quantity;
-        Integer newProductAmount = product.getAmount() + orderAmountChange;
+        int newProductAmount = product.getAmount() + orderAmountChange;
         productService.updateAmountByName(product.getProductName(), newProductAmount);
 
         Float price = product.getPrice();
@@ -87,7 +87,7 @@ public class ProductOrderService {
         Integer quantity = order.get().getQuantity();
         Product product = order.get().getProduct();
         Integer productAmount = product.getAmount();
-        Integer newAmount = productAmount - quantity;
+        int newAmount = productAmount - quantity;
         productService.updateAmountByName(product.getProductName(), newAmount);
 
         productOrderRepository.deleteById(id);
