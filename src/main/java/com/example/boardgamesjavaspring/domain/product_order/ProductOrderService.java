@@ -100,10 +100,15 @@ public class ProductOrderService {
     }
 
     /**
+     * Before updating status in order it is checked if there is any order on such customer name
+     * and then if there is a order with such id on such a customer name.
      * As creating order the first status will be 'In process' then status update gives order status value
      * 'Order delivered'.
      */
     public void updateStatus(String name, Long id) {
+        validationService.customerNotFound(name);
+        validationService.orderNotFound(name, id);
+
         ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
         ProductOrder status = productOrderMapper.updateStatus("Order delivered", order);
         productOrderRepository.save(status);
@@ -113,6 +118,9 @@ public class ProductOrderService {
      * Deleting order also updates amount of products in database.
      */
     public void delete(String name, long id) {
+        validationService.customerNotFound(name);
+        validationService.orderNotFound(name, id);
+
         ProductOrder order = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
         Integer quantity = order.getQuantity();
         Product product = order.getProduct();
