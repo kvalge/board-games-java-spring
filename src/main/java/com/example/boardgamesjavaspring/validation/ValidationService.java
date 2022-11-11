@@ -3,6 +3,8 @@ package com.example.boardgamesjavaspring.validation;
 import com.example.boardgamesjavaspring.domain.product.Product;
 import com.example.boardgamesjavaspring.domain.product.ProductRepository;
 import com.example.boardgamesjavaspring.domain.product.ProductRequest;
+import com.example.boardgamesjavaspring.domain.product_order.ProductOrder;
+import com.example.boardgamesjavaspring.domain.product_order.ProductOrderRepository;
 import com.example.boardgamesjavaspring.infrastructure.exception.DataNotFoundException;
 import com.example.boardgamesjavaspring.infrastructure.exception.NoSuchProductExistsException;
 import com.example.boardgamesjavaspring.infrastructure.exception.ProductAlreadyExistsException;
@@ -15,6 +17,9 @@ import java.util.List;
 public class ValidationService {
     @Resource
     private ProductRepository productRepository;
+
+    @Resource
+    private ProductOrderRepository productOrderRepository;
 
     /**
      * Created to use before adding new product if the product with such a name already exists.
@@ -46,12 +51,25 @@ public class ValidationService {
      * Created to throw exception if there are no products in database in case of request to return products
      * from database.
      */
-    public String dataNotFound() {
+    public String productNotFound() {
         List<Product> products = productRepository.findAll();
         if (products.size() != 0) {
             return "Operation successfully completed!";
         } else {
             String message = "No products found!";
+            throw new DataNotFoundException(message);
+        }
+    }
+
+    /**
+     * Created to throw exception if it is requested to return orders on customer name that doesn't exist.
+     */
+    public String customerNotFound(String name) {
+        List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
+        if (orders.contains(name)) {
+            return "Operation successfully completed!";
+        } else {
+            String message = "No orders found on that name!";
             throw new DataNotFoundException(message);
         }
     }

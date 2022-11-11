@@ -35,7 +35,7 @@ public class ProductService {
     }
 
     public List<ProductDto> getAllProducts() {
-        validationService.dataNotFound();
+        validationService.productNotFound();
 
         List<Product> products = productRepository.findAll();
         return productMapper.productsToProductDtos(products);

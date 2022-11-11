@@ -58,7 +58,12 @@ public class ProductOrderService {
         productOrderRepository.save(newProduct);
     }
 
+    /**
+     * Before returning orders by customer name checks if there are orders on that name.
+     */
     public List<ProductOrderResponse> getOrdersByCustomerName(String name) {
+        validationService.customerNotFound(name);
+
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
         return productOrderMapper.ordersToResponses(orders);
     }
