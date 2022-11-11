@@ -3,6 +3,7 @@ package com.example.boardgamesjavaspring.domain.product_order;
 import com.example.boardgamesjavaspring.domain.product.Product;
 import com.example.boardgamesjavaspring.domain.product.ProductRepository;
 import com.example.boardgamesjavaspring.domain.product.ProductService;
+import com.example.boardgamesjavaspring.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,12 +25,18 @@ public class ProductOrderService {
     @Resource
     private ProductService productService;
 
+    @Resource
+    private ValidationService validationService;
+
     /**
+     * Validates if product exists at all to be ordered.
      * Setting up new product order number also updates amount of products in product database.
      * Sum of total price of order is calculated on product price from product properties and
      * quantity number of order request.
      */
     public void addNewProductOrder(ProductOrderRequest request) {
+        validationService.noSuchProductExists(request.getProductName());
+
         ProductOrder productOrder = productOrderMapper.productOrderRequestToProductOrder(request);
         Product product = productRepository.findByProductNameIgnoreCase(request.getProductName());
 
