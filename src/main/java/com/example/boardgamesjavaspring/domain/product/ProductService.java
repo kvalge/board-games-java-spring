@@ -21,7 +21,7 @@ public class ProductService {
     public void addNewProduct(ProductRequest request) {
         validationService.productExist(request);
 
-        Product product = productMapper.productRequestToProduct(request);
+        Product product = productMapper.requestToProduct(request);
         Product newProduct = new Product();
         newProduct.setProductName(product.getProductName());
         newProduct.setPrice((product.getPrice()));
@@ -38,22 +38,22 @@ public class ProductService {
     public ProductDto getProductByName(String name) {
         validationService.NoSuchProductExists(name);
 
-        Product byProductName = productRepository.findByProductNameIgnoreCase(name);
+        Product byProductName = productRepository.findByProductName(name);
         return productMapper.productToProductDto(byProductName);
     }
 
     public void updateProductByName(String name, ProductRequest request) {
         validationService.NoSuchProductExists(name);
 
-        Product byProductName = productRepository.findByProductNameIgnoreCase(name);
-        Product product = productMapper.updateProductFromProductRequest(request, byProductName);
+        Product byProductName = productRepository.findByProductName(name);
+        Product product = productMapper.updateProductFromRequest(request, byProductName);
         productRepository.save(product);
     }
 
     public void updateAmountByName(String name, int quantity) {
         validationService.NoSuchProductExists(name);
 
-        Product byProductName = productRepository.findByProductNameIgnoreCase(name);
+        Product byProductName = productRepository.findByProductName(name);
         Product product = productMapper.updateProductAmount(quantity, byProductName);
         productRepository.save(product);
     }
@@ -61,6 +61,6 @@ public class ProductService {
     public void deleteProductByName(String name) {
         validationService.NoSuchProductExists(name);
 
-        productRepository.deleteByProductNameAllIgnoreCase(name);
+        productRepository.deleteByProductName(name);
     }
 }

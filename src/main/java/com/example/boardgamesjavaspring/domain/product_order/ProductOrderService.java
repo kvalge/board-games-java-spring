@@ -26,8 +26,8 @@ public class ProductOrderService {
     private ProductService productService;
 
     public void addNewProductOrder(ProductOrderRequest request) {
-        ProductOrder productOrder = productOrderMapper.productOrderRequestToProductOrder(request);
-        Product product = productRepository.findByProductNameIgnoreCase(request.getProductName());
+        ProductOrder productOrder = productOrderMapper.requestToOrder(request);
+        Product product = productRepository.findByProductName(request.getProductName());
 
         ProductOrder newProduct = new ProductOrder();
         newProduct.setProduct(product);
@@ -55,11 +55,11 @@ public class ProductOrderService {
 
     public List<ProductOrderCustomerResponse> getResponseByCustomerName(String name) {
         List<ProductOrder> orders = productOrderRepository.findOrdersByCustomerName(name);
-        return productOrderMapper.productOrdersToProductOrderResponses(orders);
+        return productOrderMapper.ordersToOrderCustomerResponses(orders);
     }
 
     public void updateAmount(String name, long id, Integer quantity) {
-        ProductOrder byNameAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        ProductOrder byNameAndId = productOrderRepository.findByCustomerNameAndId(name, id);
         Product product = byNameAndId.getProduct();
 
         Integer orderAmountChange = byNameAndId.getQuantity() - quantity;
@@ -77,7 +77,7 @@ public class ProductOrderService {
     }
 
     public void updateStatus(String name, Long id) {
-        ProductOrder byCustomerAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(name, id);
+        ProductOrder byCustomerAndId = productOrderRepository.findByCustomerNameAndId(name, id);
         ProductOrder status = productOrderMapper.updateStatus("Order delivered", byCustomerAndId);
         productOrderRepository.save(status);
     }
