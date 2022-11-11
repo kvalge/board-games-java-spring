@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.boardgamesjavaspring"},{"l":"com.example.boardgamesjavaspring.domain.product"},{"l":"com.example.boardgamesjavaspring.domain.product_order"},{"l":"com.example.boardgamesjavaspring.infrastructure.exception"},{"l":"com.example.boardgamesjavaspring.validation"}];updateSearchResults();

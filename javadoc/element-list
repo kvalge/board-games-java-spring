@@ -1,0 +1,5 @@
+com.example.boardgamesjavaspring
+com.example.boardgamesjavaspring.domain.product
+com.example.boardgamesjavaspring.domain.product_order
+com.example.boardgamesjavaspring.infrastructure.exception
+com.example.boardgamesjavaspring.validation
