@@ -1,6 +1,7 @@
 # Board Games application
 
-Board games orders management system which allows to create and modify products and orders.
+Board games orders management system which allows to create and modify products and orders.  
+Used IDE: IntelliJ 2022.2.3.
 
 ## Main functionalities
 
