@@ -48,7 +48,7 @@ class ProductRepositoryTest {
      */
     private static Product getProductEntity() {
         Product product = new Product();
-        product.setProductName("Product");
+        product.setProductName("Game");
         product.setPrice(10.00F);
         product.setAmount(1);
         return product;
