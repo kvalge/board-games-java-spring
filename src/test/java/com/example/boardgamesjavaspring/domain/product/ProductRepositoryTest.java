@@ -18,10 +18,8 @@ class ProductRepositoryTest {
      */
     @Test
     void findByProductNameIgnoreCase() {
-        Product productEntity = getProductEntity();
-        saveProductEntity(productEntity);
+        String productName = savedProductName();
 
-        String productName = productEntity.getProductName();
         Product byProductName = productRepository.findByProductNameIgnoreCase(productName);
 
         assertNotNull(byProductName);
@@ -34,10 +32,8 @@ class ProductRepositoryTest {
      */
     @Test
     void deleteByProductNameAllIgnoreCase() {
-        Product productEntity = getProductEntity();
-        saveProductEntity(productEntity);
+        String productName = savedProductName();
 
-        String productName = productEntity.getProductName();
         productRepository.deleteByProductNameAllIgnoreCase(productName);
 
         assertNull(productRepository.findByProductNameIgnoreCase(productName));
@@ -56,5 +52,11 @@ class ProductRepositoryTest {
 
     private void saveProductEntity(Product productEntity) {
         productRepository.save(productEntity);
+    }
+
+    private String savedProductName() {
+        Product productEntity = getProductEntity();
+        saveProductEntity(productEntity);
+        return productEntity.getProductName();
     }
 }
