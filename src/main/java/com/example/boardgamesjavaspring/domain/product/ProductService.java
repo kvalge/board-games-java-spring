@@ -79,4 +79,21 @@ public class ProductService {
 
         productRepository.deleteByProductNameAllIgnoreCase(name);
     }
+
+    /**
+     * Deleting product by id deletes also all orders on that product beforehand.
+     * Before deleting validates if requested product with such a name found by id exists at all.
+     */
+    public void deleteProductById(long id) {
+        String productName = productRepository.findById(id).get().getProductName();
+        validationService.noSuchProductExists(productName);
+
+        List<ProductOrder> orders = productOrderRepository.findByProductId(id);
+
+        for (ProductOrder order : orders) {
+            productOrderRepository.deleteById(order.getId());
+        }
+
+        productRepository.deleteById(id);
+    }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin
 public class ProductController {
 
     @Resource
@@ -47,5 +48,12 @@ public class ProductController {
     @Operation(summary = "Deleting product by name deletes also all orders on that product beforehand")
     public void deleteProductByName(@RequestParam String name) {
         productService.deleteProductByName(name);
+    }
+
+
+    @DeleteMapping("/delete/by/id")
+    @Operation(summary = "Deleting product by id deletes also all orders on that product beforehand")
+    public void deleteProductById(@RequestParam long id) {
+        productService.deleteProductById(id);
     }
 }
