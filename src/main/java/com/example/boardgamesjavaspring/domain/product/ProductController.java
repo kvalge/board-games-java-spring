@@ -50,7 +50,6 @@ public class ProductController {
         productService.deleteProductByName(name);
     }
 
-
     @DeleteMapping("/delete/by/id")
     @Operation(summary = "Deleting product by id deletes also all orders on that product beforehand")
     public void deleteProductById(@RequestParam long id) {
