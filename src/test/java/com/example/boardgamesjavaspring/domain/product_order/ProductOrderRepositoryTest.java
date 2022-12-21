@@ -81,6 +81,9 @@ class ProductOrderRepositoryTest {
         deleteProduct(productOrderEntity);
     }
 
+    /**
+     * Tests if method returns equal value after hard coded order entity is saved via repository save method.
+     */
     @Test
     void findByProductId() {
         ProductOrder productOrderEntity = getProductOrderEntity();
