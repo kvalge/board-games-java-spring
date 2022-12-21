@@ -36,7 +36,6 @@ class ProductControllerTest {
         deleteProduct(productName);
     }
 
-
     /**
      * Tests if products received from database via method give not null value when requested from database
      * via repository method to find product.
@@ -97,8 +96,23 @@ class ProductControllerTest {
         deleteProduct(request.getProductName());
     }
 
+    /**
+     * Tests if hard coded product entity amount property saved to database via repository method is not
+     * equal to new amount saved to database via update method.
+     */
     @Test
     void updateAmountByName() {
+        Product productEntity = getProductEntity();
+        String productName = productEntity.getProductName();
+        saveProductEntity(productEntity);
+
+        productController.updateAmountByName(productName, 3);
+
+        Integer amount = productRepository.findByProductNameIgnoreCase(productName).getAmount();
+
+        assertNotEquals(productEntity.getAmount(), amount);
+
+        deleteProduct(productName);
     }
 
     @Test
