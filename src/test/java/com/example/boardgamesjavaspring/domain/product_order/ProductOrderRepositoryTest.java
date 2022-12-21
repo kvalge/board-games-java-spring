@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ProductOrderRepositoryTest {
@@ -20,36 +21,44 @@ class ProductOrderRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
+    /**
+     * Tests if method returns equal value after hard coded order entity is saved via repository save method.
+     */
     @Test
     void findByCustomerIgnoreCaseAndId() {
-/*        ProductOrder productOrderEntity = getProductOrderEntity();
+        ProductOrder productOrderEntity = getProductOrderEntity();
         String customer = productOrderEntity.getCustomer();
-        Long id = productOrderEntity.getId();
-        productOrderRepository.save(productOrderEntity);
+        saveEntity(productOrderEntity);
 
+        List<ProductOrder> ordersByCustomerName = productOrderRepository.findOrdersByCustomerName(customer);
+        Long id = ordersByCustomerName.get(0).getId();
         ProductOrder byCustomerAndId = productOrderRepository.findByCustomerIgnoreCaseAndId(customer, id);
 
         assertNotNull(byCustomerAndId);
+        assertEquals(byCustomerAndId.getCustomer(), customer);
+        assertEquals(byCustomerAndId.getId(), id);
 
-        productOrderRepository.delete(productOrderEntity);
-        productRepository.delete(getProductEntity());*/
+        productOrderRepository.deleteById(byCustomerAndId.getId());
+        deleteProduct(productOrderEntity);
     }
 
+    /**
+     * Tests if method returns equal size of orders after hard coded order entities is saved via repository save method.
+     */
     @Test
     void findOrdersByCustomerName() {
         ProductOrder productOrderEntity = getProductOrderEntity();
         ProductOrder productOrderEntity2 = getProductOrderEntity2();
         String customer = productOrderEntity.getCustomer();
-        productOrderRepository.save(productOrderEntity);
-        productOrderRepository.save(productOrderEntity2);
+        saveEntity(productOrderEntity);
+        saveEntity(productOrderEntity2);
 
         List<ProductOrder> ordersByCustomerName = productOrderRepository.findOrdersByCustomerName(customer);
         assertEquals(ordersByCustomerName.size(), 2);
 
         productOrderRepository.deleteById(ordersByCustomerName.get(0).getId());
         productOrderRepository.deleteById(ordersByCustomerName.get(1).getId());
-        productRepository.deleteByProductNameAllIgnoreCase(productOrderEntity.getProduct().getProductName());
-
+        deleteProduct(productOrderEntity);
     }
 
     @Test
@@ -116,5 +125,13 @@ class ProductOrderRepositoryTest {
         productOrder.setStatus("In process");
 
         return productOrder;
+    }
+
+    private void saveEntity(ProductOrder productOrderEntity) {
+        productOrderRepository.save(productOrderEntity);
+    }
+
+    private void deleteProduct(ProductOrder productOrderEntity) {
+        productRepository.deleteByProductNameAllIgnoreCase(productOrderEntity.getProduct().getProductName());
     }
 }

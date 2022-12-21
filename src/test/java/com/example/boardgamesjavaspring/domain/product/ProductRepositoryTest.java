@@ -14,7 +14,7 @@ class ProductRepositoryTest {
     private ProductRepository productRepository;
 
     /**
-     * Tests if findByProductNameIgnoreCase method returns value after hard coded event entity is saved via repository save method.
+     * Tests if findByProductNameIgnoreCase method returns value after hard coded product entity is saved via repository save method.
      */
     @Test
     void findByProductNameIgnoreCase() {
