@@ -76,6 +76,26 @@ class ProductOrderRepositoryTest {
         assertNotNull(ordersByProductName);
         assertEquals(ordersByProductName.size(), 1);
         assertEquals(ordersByProductName.get(0).getCustomer(), customer);
+
+        deleteProductOrder(ordersByProductName.get(0));
+        deleteProduct(productOrderEntity);
+    }
+
+    @Test
+    void findByProductId() {
+        ProductOrder productOrderEntity = getProductOrderEntity();
+        String customer = productOrderEntity.getCustomer();
+        saveEntity(productOrderEntity);
+        Long productId = productOrderEntity.getProduct().getId();
+
+        List<ProductOrder> byProductId = productOrderRepository.findByProductId(productId);
+
+        assertNotNull(byProductId);
+        assertEquals(byProductId.size(), 1);
+        assertEquals(byProductId.get(0).getCustomer(), customer);
+
+        deleteProductOrder(byProductId.get(0));
+        deleteProduct(productOrderEntity);
     }
 
     /**
