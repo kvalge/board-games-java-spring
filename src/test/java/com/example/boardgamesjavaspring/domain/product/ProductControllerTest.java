@@ -56,8 +56,20 @@ class ProductControllerTest {
         }
     }
 
+    /**
+     * Tests equality between hard coded product entity name saved to database using repository save method and
+     * product name returned via getProductByName method.
+     */
     @Test
     void getProductByName() {
+        Product productEntity = getProductEntity();
+        String productName = productEntity.getProductName();
+        productRepository.save(productEntity);
+
+        ProductDto productByName = productController.getProductByName(productName);
+        String actualProductName = productByName.getProductName();
+
+        assertEquals(productName, actualProductName);
     }
 
     @Test
@@ -74,5 +86,16 @@ class ProductControllerTest {
 
     @Test
     void deleteProductById() {
+    }
+
+    /**
+     * Hard coded product entity.
+     */
+    private static Product getProductEntity() {
+        Product product = new Product();
+        product.setProductName("Game");
+        product.setPrice(10.00F);
+        product.setAmount(1);
+        return product;
     }
 }
