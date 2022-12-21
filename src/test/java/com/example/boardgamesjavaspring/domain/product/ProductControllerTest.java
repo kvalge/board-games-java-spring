@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -38,8 +40,20 @@ class ProductControllerTest {
         productRepository.deleteByProductNameAllIgnoreCase(databaseProductName);
     }
 
+    /**
+     * Tests if products received from database via method give not null value when requested from database
+     * via repository method to find product.
+     */
     @Test
     void getAllProducts() {
+        List<ProductDto> allProducts = productController.getAllProducts();
+
+        for (ProductDto productDto : allProducts) {
+            String productName = productDto.getProductName();
+            Product byProductName = productRepository.findByProductNameIgnoreCase(productName);
+
+            assertNotNull(byProductName);
+        }
     }
 
     @Test
