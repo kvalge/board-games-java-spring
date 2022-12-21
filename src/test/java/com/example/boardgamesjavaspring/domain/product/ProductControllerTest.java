@@ -1,6 +1,5 @@
 package com.example.boardgamesjavaspring.domain.product;
 
-import com.example.boardgamesjavaspring.domain.product_order.ProductOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +16,6 @@ class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private ProductOrderRepository productOrderRepository;
 
     /**
      * Tests equality between hard coded product request name and product name saved to database via
