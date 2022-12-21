@@ -1,5 +1,6 @@
 package com.example.boardgamesjavaspring.domain.product;
 
+import com.example.boardgamesjavaspring.domain.product_order.ProductOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,8 @@ class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductOrderRepository productOrderRepository;
 
     /**
      * Tests equality between hard coded product request name and product name saved to database via
@@ -115,12 +118,36 @@ class ProductControllerTest {
         deleteProduct(productName);
     }
 
+    /**
+     * Tests if hard coded product entity saved to database via repository method is null after using
+     * controller delete by product name method.
+     */
     @Test
     void deleteProductByName() {
+        Product productEntity = getProductEntity();
+        String productName = productEntity.getProductName();
+        saveProductEntity(productEntity);
+
+        productController.deleteProductByName(productName);
+
+        assertNull(productRepository.findByProductNameIgnoreCase(productName));
     }
 
+    /**
+     * Tests if hard coded product entity saved to database via repository method is null after using
+     * controller delete by product id method.
+     */
     @Test
     void deleteProductById() {
+        Product productEntity = getProductEntity();
+        String productName = productEntity.getProductName();
+        saveProductEntity(productEntity);
+
+        Long id = productRepository.findByProductNameIgnoreCase(productName).getId();
+
+        productController.deleteProductById(id);
+
+        assertNull(productRepository.findByProductNameIgnoreCase(productName));
     }
 
     /**
