@@ -1,6 +1,5 @@
 package com.example.boardgamesjavaspring.domain.product;
 
-import com.example.boardgamesjavaspring.domain.product_order.ProductOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,9 +16,6 @@ class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private ProductOrderRepository productOrderRepository;
-
 
     /**
      * Tests equality between hard coded product request name and product name saved to database via
@@ -27,7 +23,7 @@ class ProductControllerTest {
      */
     @Test
     void addNewProduct() {
-        ProductRequest request = new ProductRequest("Game", 11.11F, 111);
+        ProductRequest request = getProductRequest();
         String productName = request.getProductName();
 
         productController.addNewProduct(request);
@@ -37,8 +33,9 @@ class ProductControllerTest {
 
         assertEquals(databaseProductName, productName);
 
-        productRepository.deleteByProductNameAllIgnoreCase(databaseProductName);
+        deleteProduct(productName);
     }
+
 
     /**
      * Tests if products received from database via method give not null value when requested from database
@@ -64,16 +61,40 @@ class ProductControllerTest {
     void getProductByName() {
         Product productEntity = getProductEntity();
         String productName = productEntity.getProductName();
-        productRepository.save(productEntity);
+        saveProductEntity(productEntity);
 
         ProductDto productByName = productController.getProductByName(productName);
         String actualProductName = productByName.getProductName();
 
         assertEquals(productName, actualProductName);
+
+        deleteProduct(productName);
     }
 
+    /**
+     * Tests if hard coded product entity value saved to database is null after using update method.
+     * Tests equality between hard coded product request properties saved to database via update
+     * method and product properties received by product repository find product method.
+     */
     @Test
     void updateProductByName() {
+        Product productEntity = getProductEntity();
+        String productName = productEntity.getProductName();
+        saveProductEntity(productEntity);
+
+        ProductRequest request = getProductRequest();
+
+        productController.updateProductByName(productName, request);
+
+        Product byProductName = productRepository.findByProductNameIgnoreCase(request.getProductName());
+
+        assertNull(productRepository.findByProductNameIgnoreCase(productName));
+        assertEquals(request.getProductName(), byProductName.getProductName());
+        assertEquals(request.getPrice(), byProductName.getPrice());
+        assertEquals(request.getAmount(), byProductName.getAmount());
+
+        deleteProduct(productName);
+        deleteProduct(request.getProductName());
     }
 
     @Test
@@ -97,5 +118,17 @@ class ProductControllerTest {
         product.setPrice(10.00F);
         product.setAmount(1);
         return product;
+    }
+
+    private static ProductRequest getProductRequest() {
+        return new ProductRequest("Game2", 11.11F, 111);
+    }
+
+    private void saveProductEntity(Product productEntity) {
+        productRepository.save(productEntity);
+    }
+
+    private void deleteProduct(String productName) {
+        productRepository.deleteByProductNameAllIgnoreCase(productName);
     }
 }
