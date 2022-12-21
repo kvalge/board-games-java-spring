@@ -38,7 +38,7 @@ class ProductOrderRepositoryTest {
         assertEquals(byCustomerAndId.getCustomer(), customer);
         assertEquals(byCustomerAndId.getId(), id);
 
-        productOrderRepository.deleteById(byCustomerAndId.getId());
+        deleteProductOrder(byCustomerAndId);
         deleteProduct(productOrderEntity);
     }
 
@@ -56,13 +56,26 @@ class ProductOrderRepositoryTest {
         List<ProductOrder> ordersByCustomerName = productOrderRepository.findOrdersByCustomerName(customer);
         assertEquals(ordersByCustomerName.size(), 2);
 
-        productOrderRepository.deleteById(ordersByCustomerName.get(0).getId());
-        productOrderRepository.deleteById(ordersByCustomerName.get(1).getId());
+        deleteProductOrder(ordersByCustomerName.get(0));
+        deleteProductOrder(ordersByCustomerName.get(1));
         deleteProduct(productOrderEntity);
     }
 
+    /**
+     * Tests if method returns equal value after hard coded order entity is saved via repository save method.
+     */
     @Test
     void findOrdersByProductName() {
+        ProductOrder productOrderEntity = getProductOrderEntity();
+        String customer = productOrderEntity.getCustomer();
+        saveEntity(productOrderEntity);
+        String productName = productOrderEntity.getProduct().getProductName();
+
+        List<ProductOrder> ordersByProductName = productOrderRepository.findOrdersByProductName(productName);
+
+        assertNotNull(ordersByProductName);
+        assertEquals(ordersByProductName.size(), 1);
+        assertEquals(ordersByProductName.get(0).getCustomer(), customer);
     }
 
     /**
@@ -129,6 +142,10 @@ class ProductOrderRepositoryTest {
 
     private void saveEntity(ProductOrder productOrderEntity) {
         productOrderRepository.save(productOrderEntity);
+    }
+
+    private void deleteProductOrder(ProductOrder byCustomerAndId) {
+        productOrderRepository.deleteById(byCustomerAndId.getId());
     }
 
     private void deleteProduct(ProductOrder productOrderEntity) {
